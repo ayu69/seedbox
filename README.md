@@ -1,6 +1,6 @@
 
 # seedbox
-Seedbox Complete sous docker d'après le script de https://github.com/laster13/seedbox
+Seedbox Complete sous docker d'après le script de https://github.com/ayu69/seedbox
 
 
 ## installation
@@ -16,11 +16,11 @@ Seedbox Complete sous docker d'après le script de https://github.com/laster13/s
     chmod +x seedbox.sh logo.sh
     seedbox.sh
 
-seedbox docker sécurisée avec traefik (iptables, fail2ban, logwatch, portsentry)
-integration du tuto
+
+Plus d'infos :
 https://mondedie.fr/d/5318-Tuto-Securisation-Logs-V-3-nginx
-possibilité de changer le .htpasswd pour l'identification des applis
-possibilité de changer le pass de root dans putty
+https://mondedie.fr/
+
 
 
  - traefik
@@ -29,7 +29,6 @@ possibilité de changer le pass de root dans putty
  - sonarr
  - radarr
  - tautulli
- - radarr
  - filebot
  - nextcloud
  - heimdall
