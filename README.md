@@ -8,7 +8,7 @@ Seedbox Complete sous docker d'après le script de https://github.com/laster13/s
     apt update && apt upgrade
     apt install git
     cd /tmp
-    git clone https://github.com/laster13/seedbox.git
+    git clone https://github.com/ayu69/seedbox.git
     cd seedbox
     mv seedbox.sh logo.sh /usr/local/bin
     mv iptables /etc/iptables
