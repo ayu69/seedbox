@@ -1,15 +1,16 @@
 
 # seedbox
-Seedbox Complete sous docker d'après le script de https://github.com/ayu69/seedbox
+Seedbox Complete sous docker d'après le script de https://github.com/laster13/seedbox
 
 
 ## installation
 
     apt update && apt upgrade
-    apt install git
+    apt install git && apt install dos2unix
     cd /tmp
     git clone https://github.com/ayu69/seedbox.git
     cd seedbox
+    dos2unix seedbox.sh logo.sh
     mv seedbox.sh logo.sh /usr/local/bin
     mv iptables /etc/iptables
     cd /usr/local/bin
