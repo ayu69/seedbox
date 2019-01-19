@@ -1,7 +1,7 @@
 ### Script de @Barberousse de Mondedie
 ### https://mondedie.fr/d/10271-chaine-prerouting-iptables-dans-la-table-nat/7
 #!/bin/bash
-IEXT=$(route | grep '^default' | grep -o '[^ ]*$')
+IEXT=enp4s0
 RESEAU_LOCAL="127.0.0.0/24"
 IPT=/sbin/iptables
 IPT6=/sbin/ip6tables
@@ -34,6 +34,26 @@ i -t filter -A USER-INPUT -m pkttype --pkt-type broadcast -j ACCEPT
 #SSH
 i -t filter -A USER-INPUT -p tcp --dport 22 -j ACCEPT -m comment --comment "SSH"
 i6 -t filter -A USER-INPUT -p tcp --dport 22 -j ACCEPT -m comment --comment "SSH"
+
+#http/https
+i -t filter -A USER-INPUT -p tcp --dport 80 -j ACCEPT -m comment --comment "HTTP"
+i -t filter -A USER-INPUT -p tcp --dport 443 -j ACCEPT -m comment --comment "HTTPS"
+i6 -t filter -A USER-INPUT -p tcp --dport 80 -j ACCEPT -m comment --comment "HTTP"
+i6 -t filter -A USER-INPUT -p tcp --dport 443 -j ACCEPT -m comment --comment "HTTPS"
+
+#btsync
+#btsync port de communication
+i -t filter -A USER-INPUT -p tcp --dport 18899 -i $IEXT -j ACCEPT -m comment --comment "btsync externe TCP sur $IEXT"
+i -t filter -A USER-INPUT -p udp --dport 18899 -i $IEXT -j ACCEPT -m comment --comment "btsync externe UDP sur $IEXT"
+#btsync port local discovery
+i -t filter -A USER-INPUT -p tcp --dport 3838 -s $RESEAU_LOCAL -j ACCEPT -m comment --comment "btsync local port discovery"
+i -t filter -A USER-INPUT -p udp --dport 3838 -s $RESEAU_LOCAL -j ACCEPT -m comment --comment "btsync local port discovery"
+
+#transmission
+i -t filter -A USER-INPUT -p tcp --dport 37988 -j ACCEPT -m comment --comment "Transmission"
+i -t filter -A USER-INPUT -p udp --dport 37988 -j ACCEPT -m comment --comment "Transmission"
+i6 -t filter -A USER-INPUT -p tcp --dport 37988 -j ACCEPT -m comment --comment "Transmission"
+i6 -t filter -A USER-INPUT -p udp --dport 37988 -j ACCEPT -m comment --comment "Transmission"
 
 #log les paquets non acceptés et les rejette proprement
 i -t filter -A USER-INPUT -j LOG -m limit --limit 12/min --limit-burst 12 --log-prefix "DEFAULT_DROP_INPUT: " -m comment --comment "Log default reject"
@@ -187,6 +207,7 @@ i6 -t nat -F USER-POSTROUTING
 
 fw_save() {
 /sbin/iptables-save > /etc/iptables.backup
+/sbin/ip6tables-save > /etc/ip6tables.backup
 }
 
 fw_restore() {
@@ -200,7 +221,7 @@ fi
 }
 #test après 30 secondes restore la version précédente.
 fw_test() {
-fw_save
+fw-save
 sleep 30 && log "restauration des règles précédentes" && fw_restore &
 fw_start
 }
