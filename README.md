@@ -1,4 +1,5 @@
 
+
 # seedbox
 Seedbox Complete sous docker d'après le script de https://github.com/laster13/seedbox
 
@@ -20,7 +21,7 @@ Seedbox Complete sous docker d'après le script de https://github.com/laster13/s
 
 Plus d'infos :
 https://mondedie.fr/d/5318-Tuto-Securisation-Logs-V-3-nginx
-https://mondedie.fr/
+
 
 
 
